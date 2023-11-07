@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: OneNineAI G2 - Task 4: DevOps and Automation
+
+Parameters:
+  ImageID:
+    Type: String
+    Description: 'RedHat AMI'
+    Default: 'ami-0931978297f275f71'
+  InstanceType:
+    Type: String
+    Description: 't2.micro as its included in free tier'
+    Default: t2.micro
+  KeyName:
+    Description: SSH Key pair to securely connect to instance
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: OneNineG2T4
+  
+
+Resources:
