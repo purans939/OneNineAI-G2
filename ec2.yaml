@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: OneNineAI G2 - Task 4: DevOps and Automation
+Description: OneNineAI G2 - Task 4 on DevOps and Automation
 
 Parameters:
   ImageID:
@@ -16,4 +16,4 @@ Parameters:
     Default: OneNineG2T4
   
 
-Resources:
+#Resources:
