@@ -1,5 +1,5 @@
 # OneNineAI-G2
-OneNineAI - Group 2/Task 4: DevOps and Automation
+**OneNineAI - Group 2/Task 4: DevOps and Automation**
 
 Contributors:
 
