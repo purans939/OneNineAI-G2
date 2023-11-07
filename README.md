@@ -2,8 +2,11 @@
 OneNineAI - Group 2/Task 4: DevOps and Automation
 
 Contributors:
-Puran Shievkumar
-Samuel Yarlagadda
+
+<ul>
+  <li>Puran Shievkumar</li>
+  <li>Samuel Yarlagadda</li>
+</ul>
 
 In this task, we will be testing and deploying infrastructure creation via 4 scripts:
 
