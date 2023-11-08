@@ -22,20 +22,20 @@ Parameters:
   DBInstanceClass:
     Description: Database instance class
     Type: String
-    Default: "db.m7g"
+    Default: "db.t3.micro"
+
+  DBClusterInstanceClass:
+    Description: Database instance class
+    Type: String
+    Default: "db.t3.micro"
 
   AllocatedStorage:
     Description: The memory to be allocated for your database
     Type: Number
-    Default: "30"
+    Default: "20"
 
   EnablePerformanceInsights:
     Description: A value that indicates whether to enable Performance Insights for the DB instance.
-    Type: String
-    Default: false
-
-  MultiAZ:
-    Description: true, in case you wish to have a multi-AZ deployment
     Type: String
     Default: false
 
@@ -48,6 +48,8 @@ Resources:
       BackupRetentionPeriod: 7
       DBClusterIdentifier: dbcluster
       DBClusterParameterGroupName: !Ref DBClusterPG
+      DBClusterInstanceClass: !Ref DBClusterInstanceClass
+      AllocatedStorage: !Ref AllocatedStorage
       DatabaseName: !Ref DBName
       DeletionProtection: false
       Engine: postgres
@@ -63,7 +65,7 @@ Resources:
     Type: AWS::RDS::DBClusterParameterGroup
     Properties:
       Description: DB Cluster Parameter Group for your Aurora DB cluster
-      Family: aurora-postgresql10
+      Family: postgres15
       Parameters:
         rds.logical_replication: 1
         
@@ -74,7 +76,7 @@ Resources:
         - Key: "Name"
           Value: myrdsdbparametergroup
       Description: Database Parameter Group for your Aurora DB Instnace
-      Family: postgres10
+      Family: postgres15
       Parameters:
         shared_preload_libraries: "pg_stat_statements, pg_hint_plan"
 
@@ -93,8 +95,8 @@ Resources:
         Ref: AllocatedStorage
       DBInstanceClass:
         Ref: DBInstanceClass
-      Engine: aurora-postgresql
-      EngineVersion: 10.11
+      Engine: postgres
+      EngineVersion: 15.4
       MasterUsername:
         Ref: DBMasterUsername
       MasterUserPassword:
@@ -105,7 +107,6 @@ Resources:
       StorageEncrypted: "true"
       EnablePerformanceInsights:
         Ref: EnablePerformanceInsights
-      MultiAZ: !Ref MultiAZ
       AutoMinorVersionUpgrade: true
       CopyTagsToSnapshot: true
       BackupRetentionPeriod: 7
