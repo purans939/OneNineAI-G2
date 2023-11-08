@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: OneNineAI G2 - Task 4 on DevOps and Automation (PostgreSQL DB)
+
+Parameters:
+
+  DBName:
+    Description: The database name for Aurora PostgreSQL DB instance
+    Type: String
+    Default: "OneNineAIG2T4DB"
+
+  DBMasterUsername:
+    Description: The database master/super username
+    Type: String
+    Default: "onenineai"
+
+  DBMasterUserPassword:
+    Description: The password for database master/super user
+    Type: String
+    NoEcho: "true"
+    Default: "onenineai"
+
+  DBInstanceClass:
+    Description: Database instance class
+    Type: String
+    Default: "db.m7g"
+
+  AllocatedStorage:
+    Description: The memory to be allocated for your database
+    Type: Number
+    Default: "30"
+
+  EnablePerformanceInsights:
+    Description: A value that indicates whether to enable Performance Insights for the DB instance.
+    Type: String
+    Default: false
+
+  MultiAZ:
+    Description: true, in case you wish to have a multi-AZ deployment
+    Type: String
+    Default: false
+
+Resources:
+  DBCluster:
+    DependsOn:
+      - DBClusterPG
+    Type: AWS::RDS::DBCluster
+    Properties:
+      BackupRetentionPeriod: 7
+      DBClusterIdentifier: dbcluster
+      DBClusterParameterGroupName: !Ref DBClusterPG
+      DatabaseName: !Ref DBName
+      DeletionProtection: false
+      Engine: postgres
+      EngineMode: provisioned
+      EngineVersion: 15.4
+      MasterUserPassword: !Ref DBMasterUserPassword
+      MasterUsername: !Ref DBMasterUsername
+      Port: 5432
+      SourceRegion: !Ref 'AWS::Region'
+      StorageEncrypted: true
+    
+  DBClusterPG:
+    Type: AWS::RDS::DBClusterParameterGroup
+    Properties:
+      Description: DB Cluster Parameter Group for your Aurora DB cluster
+      Family: aurora-postgresql10
+      Parameters:
+        rds.logical_replication: 1
+        
+  DBParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties:
+      Tags:
+        - Key: "Name"
+          Value: myrdsdbparametergroup
+      Description: Database Parameter Group for your Aurora DB Instnace
+      Family: postgres10
+      Parameters:
+        shared_preload_libraries: "pg_stat_statements, pg_hint_plan"
+
+  DBInstance:
+    DependsOn:
+      - DBParameterGroup
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Tags:
+        - Key: "Name"
+          Value: mypostgresdb
+      DBInstanceIdentifier: mypostgresdb
+      DBName:
+        Ref: DBName
+      AllocatedStorage:
+        Ref: AllocatedStorage
+      DBInstanceClass:
+        Ref: DBInstanceClass
+      Engine: aurora-postgresql
+      EngineVersion: 10.11
+      MasterUsername:
+        Ref: DBMasterUsername
+      MasterUserPassword:
+        Ref: DBMasterUserPassword
+      DBParameterGroupName:
+        Ref: DBParameterGroup
+      StorageType: gp2
+      StorageEncrypted: "true"
+      EnablePerformanceInsights:
+        Ref: EnablePerformanceInsights
+      MultiAZ: !Ref MultiAZ
+      AutoMinorVersionUpgrade: true
+      CopyTagsToSnapshot: true
+      BackupRetentionPeriod: 7
+      PubliclyAccessible: false
+
+Outputs:
+  RDSEndpoint:
+    Description: RDS Database Endpoint
+    Value:
+      Fn::GetAtt:
+        - DBInstance
+        - Endpoint.Address
+    Export:
+      Name:
+        Fn::Sub: "RDSEndpoint"

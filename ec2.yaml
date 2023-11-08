@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: OneNineAI G2 - Task 4 on DevOps and Automation
+Description: OneNineAI G2 - Task 4 on DevOps and Automation (EC2 VM)
 
 Parameters:
   ImageID:
