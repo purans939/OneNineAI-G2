@@ -45,6 +45,28 @@ Resources:
             # 4. run app
             npm run dev
 
+    InstanceSecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: SSH
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: -1
+            CidrIp: 0.0.0.0/0
+
+    ElasticIP:
+      Type: AWS::EC2::EIP
+
+    IPAssoc:
+      Type: AWS::EC2::EIPAssociation
+      Properties:
+        InstanceId: !Ref EC2Instance
+        EIP: !Ref 'ElasticIP'
+
+
 
 
     
