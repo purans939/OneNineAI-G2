@@ -40,55 +40,13 @@ Parameters:
     Default: false
 
 Resources:
-  DBCluster:
-    DependsOn:
-      - DBClusterPG
-    Type: AWS::RDS::DBCluster
-    Properties:
-      BackupRetentionPeriod: 7
-      DBClusterIdentifier: dbcluster
-      DBClusterParameterGroupName: !Ref DBClusterPG
-      DBClusterInstanceClass: !Ref DBClusterInstanceClass
-      AllocatedStorage: !Ref AllocatedStorage
-      DatabaseName: !Ref DBName
-      DeletionProtection: false
-      Engine: postgres
-      EngineMode: provisioned
-      EngineVersion: 15.4
-      MasterUserPassword: !Ref DBMasterUserPassword
-      MasterUsername: !Ref DBMasterUsername
-      Port: 5432
-      SourceRegion: !Ref 'AWS::Region'
-      StorageEncrypted: true
-    
-  DBClusterPG:
-    Type: AWS::RDS::DBClusterParameterGroup
-    Properties:
-      Description: DB Cluster Parameter Group for your Aurora DB cluster
-      Family: postgres15
-      Parameters:
-        rds.logical_replication: 1
-        
-  DBParameterGroup:
-    Type: AWS::RDS::DBParameterGroup
-    Properties:
-      Tags:
-        - Key: "Name"
-          Value: myrdsdbparametergroup
-      Description: Database Parameter Group for your Aurora DB Instnace
-      Family: postgres15
-      Parameters:
-        shared_preload_libraries: "pg_stat_statements, pg_hint_plan"
-
   DBInstance:
-    DependsOn:
-      - DBParameterGroup
     Type: AWS::RDS::DBInstance
     Properties:
       Tags:
         - Key: "Name"
-          Value: mypostgresdb
-      DBInstanceIdentifier: mypostgresdb
+          Value: mypostgresdb2
+      DBInstanceIdentifier: mypostgresdb2
       DBName:
         Ref: DBName
       AllocatedStorage:
@@ -101,8 +59,6 @@ Resources:
         Ref: DBMasterUsername
       MasterUserPassword:
         Ref: DBMasterUserPassword
-      DBParameterGroupName:
-        Ref: DBParameterGroup
       StorageType: gp2
       StorageEncrypted: "true"
       EnablePerformanceInsights:
