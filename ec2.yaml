@@ -34,7 +34,7 @@ Resources:
           Fn::Base64: !Sub |
             #!/bin/sh
             
-            sudo yum install git
+            sudo yum install git -y
             
             # 1. cloning chatboi-ui from git repo
             mkdir -p /usr/gitrepo/
