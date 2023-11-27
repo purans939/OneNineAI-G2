@@ -45,8 +45,8 @@ Resources:
     Properties:
       Tags:
         - Key: "Name"
-          Value: mypostgresdb2
-      DBInstanceIdentifier: mypostgresdb2
+          Value: mypostgresdb3
+      DBInstanceIdentifier: mypostgresdb3
       DBName:
         Ref: DBName
       AllocatedStorage:
@@ -77,4 +77,4 @@ Outputs:
         - Endpoint.Address
     Export:
       Name:
-        Fn::Sub: "RDSEndpoint"
+        Fn::Sub: "RDSEndpoint2"

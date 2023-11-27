@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: OneNineAI G2 - Task 4 on DevOps and Automation (S3 Bucket)
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: test-s3-onenine-2
+      AccessControl: Private
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: MyS3Bucket
+
+  MainFolder:
+    Type: AWS::S3::Bucket
+    DependsOn: MyS3Bucket  
+    Properties:
+      Bucket: !Ref MyS3Bucket  
+      Key: "main-folder/"
+
+  InsideFolder:
+    Type: AWS::S3::Bucket
+    DependsOn: MainFolder 
+    Properties:
+      Bucket: !Ref MyS3Bucket  
+      Key: main-folder/inside-folder  
+
+  

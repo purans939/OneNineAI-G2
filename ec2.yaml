@@ -59,7 +59,31 @@ Resources:
             CidrIp: 0.0.0.0/0
           - IpProtocol: -1
             CidrIp: 0.0.0.0/0
-
+        GroupDescription: HTTPS
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0
+        GroupDescription: FastAPI
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 8889
+            ToPort: 8889
+            CidrIp: 0.0.0.0/0
+        GroupDescription: Mistral
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 8000
+            ToPort: 8000
+            CidrIp: 0.0.0.0/0
+        GroupDescription: App
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 8306
+            ToPort: 8306
+            CidrIp: 0.0.0.0/0            
+          
     ElasticIP:
       Type: AWS::EC2::EIP
 
@@ -68,8 +92,3 @@ Resources:
       Properties:
         InstanceId: !Ref EC2Instance
         EIP: !Ref 'ElasticIP'
-
-
-
-
-    
