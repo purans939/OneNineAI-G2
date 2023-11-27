@@ -68,6 +68,16 @@ Resources:
       BackupRetentionPeriod: 7
       PubliclyAccessible: false
 
+  InstanceSecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: DBInboundPorts
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 5432
+            ToPort: 5432
+            CidrIp: 0.0.0.0/0
+
 Outputs:
   RDSEndpoint:
     Description: RDS Database Endpoint
