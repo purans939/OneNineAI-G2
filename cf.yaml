@@ -1,4 +1,4 @@
-name: CI
+name: CI-OneNine-DevOps
 
 on:
   workflow_dispatch:
@@ -8,5 +8,16 @@ on:
         required: true
         default: "us-east-2"
 
-
   jobs:
+    steps:
+      - name: Create EC2 instance running RHEL
+        uses: ec2.yaml
+
+      - name: Create RDS using PostgreSQL
+        uses: db.yaml
+
+      - name: Start S3 Bucket
+        uses: s3.yaml
+
+      - name: Script to clone Git repo of Chatbot UI into specified folder
+        uses: install.sh
