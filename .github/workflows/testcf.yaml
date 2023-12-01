@@ -1,29 +1,27 @@
 name: CI-OneNine-DevOps
 
 on:
-  workflow_dispatch:
-    inputs:
-      region:
-        description: "AWS Region"
-        required: true
-        default: "us-east-2"
-      bucketName:
-        description: "Name of S3 Bucket"
-      DNSName:
-        description: "Name of Domain + Name of S3 Bucket"
-      ModelSize:
-        description: "Size of the model that is being created"
+  push:
+    branches:
+      - main
 
   jobs:
     steps:
+      - name: Establish AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+          aws-region: "us-east-2"
+
       - name: Create EC2 instance running RHEL
-        uses: ec2.yaml
+        uses: aws cloudformation deploy --template-file ec2.yaml --stack-name ec2-onenine
 
       - name: Create RDS using PostgreSQL
-        uses: db.yaml
+        uses: aws cloudformation deploy --template-file db.yaml --stack-name postgre-onenine
 
       - name: Start S3 Bucket
-        uses: s3.yaml
+        uses: aws cloudformation deploy --template-file s3.yaml --stack-name s3-onenine
 
       - name: Script to clone Git repo of Chatbot UI into specified folder
         uses: install.sh
