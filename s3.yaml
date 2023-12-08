@@ -5,26 +5,11 @@ Resources:
   MyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: test-s3-onenine-2
+      BucketName: s3-capstone-onenine
       AccessControl: Private
       VersioningConfiguration:
         Status: Enabled
       Tags:
         - Key: Name
           Value: MyS3Bucket
-
-  MainFolder:
-    Type: AWS::S3::Bucket
-    DependsOn: MyS3Bucket  
-    Properties:
-      Bucket: !Ref MyS3Bucket  
-      Key: "main-folder/"
-
-  InsideFolder:
-    Type: AWS::S3::Bucket
-    DependsOn: MainFolder 
-    Properties:
-      Bucket: !Ref MyS3Bucket  
-      Key: main-folder/inside-folder  
-
   

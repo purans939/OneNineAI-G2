@@ -45,8 +45,8 @@ Resources:
     Properties:
       Tags:
         - Key: "Name"
-          Value: mypostgresdb3
-      DBInstanceIdentifier: mypostgresdb3
+          Value: rds-capstone-onenine
+      DBInstanceIdentifier: rds-capstone-onenine
       DBName:
         Ref: DBName
       AllocatedStorage:
