@@ -16,6 +16,13 @@ on:
 
   jobs:
     steps:
+      - name: Establish AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+          aws-region: "us-east-2"
+
       - name: Create EC2 instance running RHEL
         uses: ec2.yaml
 
